@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Indicador Tipológico · RJL Consultoria</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&family=Source+Sans+3:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#F1F3EE; --surface:#FBFBF8; --ink:#1B3530; --ink-soft:#4E625C; --muted:#7D8C86;
+  --line:#D8DED6; --gold:#B8924A; --gold-soft:#EDE3CD; --green-soft:#DDE7E1; --focus:#B8924A;
+  --serif:"Source Serif 4", Cambria, Georgia, "Times New Roman", serif;
+  --sans:"Source Sans 3", Calibri, "Segoe UI", system-ui, sans-serif;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#172B26; --surface:#1E3630; --ink:#ECE7DB; --ink-soft:#BFC9C3; --muted:#8FA099;
+    --line:#2F4A43; --gold:#D2B274; --gold-soft:#3A3A2A; --green-soft:#24403A;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#172B26; --surface:#1E3630; --ink:#ECE7DB; --ink-soft:#BFC9C3; --muted:#8FA099;
+  --line:#2F4A43; --gold:#D2B274; --gold-soft:#3A3A2A; --green-soft:#24403A;
+}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*,*::before,*::after{box-sizing:inherit}
+html,body{margin:0;height:100%}
+body{background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:17px;line-height:1.55;-webkit-font-smoothing:antialiased}
+button{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--focus);outline-offset:3px;border-radius:6px}
+
+.app{min-height:100%;display:flex;flex-direction:column}
+header.top{display:flex;align-items:center;gap:14px;padding:22px clamp(20px,5vw,48px)}
+.mark{width:44px;height:44px;border:1.5px solid var(--gold);border-radius:9px;display:grid;place-items:center;
+  font-family:var(--serif);font-weight:700;font-size:15px;color:var(--gold);letter-spacing:.02em}
+.brand{font-size:14px;color:var(--ink-soft)}
+.brand strong{color:var(--ink);font-weight:600}
+main{flex:1;display:flex;justify-content:center;padding:8px clamp(20px,5vw,48px) 48px}
+.wrap{width:100%;max-width:680px}
+.hidden{display:none !important}
+
+/* Intro */
+h1{font-family:var(--serif);font-weight:700;font-size:clamp(34px,6vw,50px);line-height:1.08;margin:28px 0 16px;letter-spacing:-.01em}
+.lead{font-size:19px;color:var(--ink-soft);max-width:60ch;margin:0 0 28px}
+.facts{display:grid;grid-template-columns:repeat(3,1fr);gap:0;border-top:1px solid var(--line);border-bottom:1px solid var(--line);margin:0 0 32px}
+.facts div{padding:14px 14px 14px 0}
+.facts div+div{padding-left:16px;border-left:1px solid var(--line)}
+.facts b{display:block;font-family:var(--serif);font-size:24px;font-weight:600;color:var(--ink)}
+.facts span{font-size:14px;color:var(--muted)}
+label.field{display:block;font-weight:600;font-size:15px;margin-bottom:8px}
+.input{width:100%;padding:14px 16px;border:1.5px solid var(--line);border-radius:10px;background:var(--surface);color:var(--ink);font:inherit;font-size:17px}
+.input:focus{border-color:var(--gold);outline:none;box-shadow:0 0 0 3px var(--gold-soft)}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:28px}
+.row .full{grid-column:1/-1}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:0;border-radius:10px;padding:14px 26px;
+  background:var(--ink);color:var(--bg);font-weight:600;font-size:16px;cursor:pointer;transition:transform .12s ease, opacity .2s}
+.btn:hover{transform:translateY(-1px)}
+.btn:disabled{opacity:.4;cursor:not-allowed;transform:none}
+.btn.ghost{background:transparent;color:var(--ink-soft);border:1.5px solid var(--line)}
+.note{font-size:14px;color:var(--muted);margin-top:16px}
+.error{color:#A4533B;font-size:14px;margin-top:10px;min-height:1.2em}
+
+/* Quiz */
+.progress{display:flex;align-items:center;gap:14px;margin:20px 0 36px}
+.bar{flex:1;height:4px;background:var(--line);border-radius:4px;overflow:hidden}
+.bar i{display:block;height:100%;background:var(--gold);width:0;transition:width .35s ease}
+.count{font-size:14px;color:var(--muted);white-space:nowrap;font-variant-numeric:tabular-nums}
+.qnum{font-family:var(--serif);font-size:15px;color:var(--gold);font-weight:600;margin-bottom:8px}
+.question{font-family:var(--serif);font-size:clamp(23px,3.6vw,30px);line-height:1.3;font-weight:600;margin:0 0 30px;min-height:2.6em}
+.options{display:grid;gap:14px}
+.opt{display:flex;gap:16px;align-items:flex-start;text-align:left;width:100%;padding:18px 20px;background:var(--surface);
+  border:1.5px solid var(--line);border-radius:12px;cursor:pointer;font-size:17px;line-height:1.45;transition:border-color .15s, background .15s}
+.opt:hover{border-color:var(--gold)}
+.opt .k{flex:0 0 28px;height:28px;border-radius:50%;border:1.5px solid var(--line);display:grid;place-items:center;font-size:13px;font-weight:600;color:var(--muted);margin-top:1px}
+.opt[aria-checked="true"]{border-color:var(--gold);background:var(--gold-soft)}
+.opt[aria-checked="true"] .k{background:var(--gold);border-color:var(--gold);color:#fff}
+.nav{display:flex;justify-content:space-between;align-items:center;margin-top:30px;gap:12px}
+.hint{font-size:13px;color:var(--muted)}
+.stage{animation:none}
+@media (prefers-reduced-motion:no-preference){ .stage.enter{animation:enter .28s ease both} }
+@keyframes enter{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+
+/* Result */
+.res-head{margin:28px 0 6px;color:var(--ink-soft);font-size:16px}
+.type{display:flex;gap:clamp(6px,2vw,14px);margin:6px 0 10px}
+.type .L{font-family:var(--serif);font-weight:700;font-size:clamp(64px,15vw,112px);line-height:1;color:var(--ink);
+  width:1.02em;text-align:center;border-bottom:3px solid var(--gold);padding-bottom:6px}
+@media (prefers-reduced-motion:no-preference){
+  .type .L{animation:rise .6s cubic-bezier(.2,.7,.2,1) both}
+  .type .L:nth-child(2){animation-delay:.12s}.type .L:nth-child(3){animation-delay:.24s}.type .L:nth-child(4){animation-delay:.36s}
+}
+@keyframes rise{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
+.nick{font-family:var(--serif);font-size:clamp(24px,4vw,32px);font-weight:600;margin:14px 0 4px}
+.dims-name{color:var(--muted);font-size:15px;margin:0 0 20px}
+.summary{font-family:var(--serif);font-size:19px;line-height:1.65;color:var(--ink-soft);max-width:62ch;margin:0 0 36px}
+h2{font-family:var(--serif);font-size:22px;font-weight:600;margin:0 0 6px}
+.sub{color:var(--muted);font-size:15px;margin:0 0 20px}
+.dims{display:grid;gap:22px;margin-bottom:40px}
+.dim-top{display:flex;justify-content:space-between;font-size:15px;margin-bottom:8px;gap:10px}
+.dim-top .win{font-weight:600;color:var(--ink)}
+.dim-top span{color:var(--muted)}
+.split{display:flex;height:10px;border-radius:6px;overflow:hidden;background:var(--line)}
+.split .a{background:var(--ink)}
+.split .b{background:var(--green-soft)}
+.split .a.lose{background:var(--green-soft)}
+.split .b.win{background:var(--ink)}
+.meta{border-top:1px solid var(--line);padding-top:18px;display:flex;flex-wrap:wrap;gap:8px 28px;font-size:14px;color:var(--muted);margin-bottom:28px}
+.meta b{color:var(--ink);font-weight:600}
+.actions{display:flex;flex-wrap:wrap;gap:12px}
+footer{padding:18px clamp(20px,5vw,48px) 26px;font-size:13px;color:var(--muted);text-align:center}
+
+@media (max-width:560px){
+  .row{grid-template-columns:1fr}
+  .facts{grid-template-columns:1fr 1fr 1fr}
+  .facts b{font-size:20px}
+  .hint{display:none}
+}
+@media print{
+  header.top .brand, .actions, footer, .nav{display:none !important}
+  body{background:#fff;color:#1B3530}
+  .type .L{animation:none}
+}
+</style>
+</head>
+<body>
+<div class="app">
+  <header class="top">
+    <div class="mark" aria-hidden="true">RJL</div>
+    <div class="brand"><strong>RJL Consultoria</strong> · Recrutamento e seleção</div>
+  </header>
+
+  <main>
+    <div class="wrap">
+
+      <!-- Tela inicial -->
+      <section id="intro" class="stage">
+        <h1>Indicador Tipológico</h1>
+        <p class="lead">Este questionário ajuda a entender a forma como você prefere se relacionar, perceber o mundo, tomar decisões e organizar sua rotina. Não há respostas certas ou erradas: escolha a opção que mais combina com você no dia a dia.</p>
+        <div class="facts">
+          <div><b>44</b><span>perguntas</span></div>
+          <div><b>10 min</b><span>em média</span></div>
+          <div><b>2</b><span>opções cada</span></div>
+        </div>
+        <div class="row">
+          <div class="full">
+            <label class="field" for="nome">Seu nome completo</label>
+            <input class="input" id="nome" autocomplete="name" placeholder="Ex.: Maria Silva">
+          </div>
+          <div class="full">
+            <label class="field" for="vaga">Vaga pretendida <span style="font-weight:400;color:var(--muted)">(opcional)</span></label>
+            <input class="input" id="vaga" placeholder="Ex.: Analista financeiro">
+          </div>
+        </div>
+        <button class="btn" id="startBtn">Começar questionário</button>
+        <div class="error" id="introErr" role="alert"></div>
+        <p class="note" id="resumeNote"></p>
+      </section>
+
+      <!-- Perguntas -->
+      <section id="quiz" class="hidden">
+        <div class="progress">
+          <div class="bar" role="progressbar" aria-valuemin="0" aria-valuemax="44" aria-valuenow="0" id="barWrap"><i id="bar"></i></div>
+          <div class="count" id="count">0 de 44 respondidas</div>
+        </div>
+        <div id="qStage" class="stage">
+          <div class="qnum" id="qnum"></div>
+          <p class="question" id="qtext"></p>
+          <div class="options" role="radiogroup" aria-labelledby="qtext" id="opts"></div>
+        </div>
+        <div class="nav">
+          <button class="btn ghost" id="backBtn">Voltar</button>
+          <span class="hint">Dica: use as teclas 1 e 2 para responder</span>
+          <button class="btn" id="nextBtn" disabled>Próxima</button>
+        </div>
+      </section>
+
+      <!-- Resultado -->
+      <section id="result" class="hidden">
+        <p class="res-head" id="resHello"></p>
+        <div class="type" id="typeLetters" aria-live="polite"></div>
+        <p class="nick" id="nick"></p>
+        <p class="dims-name" id="dimsName"></p>
+        <p class="summary" id="summary"></p>
+
+        <h2>Como chegamos às suas letras</h2>
+        <p class="sub">Cada par tem 11 perguntas. A letra que apareceu mais vezes compõe o seu tipo.</p>
+        <div class="dims" id="dims"></div>
+
+        <div class="meta" id="meta"></div>
+        <div class="actions">
+          <button class="btn" id="printBtn">Imprimir ou salvar em PDF</button>
+        </div>
+      </section>
+
+    </div>
+  </main>
+  <footer>RJL Consultoria · Indicador Tipológico baseado no material Tipos Psicológicos – Ganhando com as Diferenças</footer>
+</div>
+
+<script>
+/* ===== Perguntas e chave de conversão (Indicador Tipológico v01) ===== */
+const Q = [
+ ["Se você tem algo importante (mas não urgente) para dizer a um colega que trabalha em outra cidade, você prefere se expressar:", "Por escrito.", "Por telefone.", "I","E"],
+ ["Ao participar de uma festa ou outro evento social, você:", "Costuma conversar com várias pessoas, incluindo desconhecidos.", "Prefere conversar com poucas pessoas, já conhecidas.", "E","I"],
+ ["Você costuma ferir os sentimentos alheios sem perceber?", "Nunca ou muito raramente.", "De vez em quando.", "F","T"],
+ ["Ao ler um livro você prefere:", "O estilo literário, cheio de frases de efeito e metáforas.", "O estilo jornalístico, com frases mais simples e descrições mais próximas da realidade.", "N","S"],
+ ["Você sente prazer em:", "Discutir um assunto a fundo até que sua opinião prevaleça.", "Chegar a um consenso o mais rápido possível.", "N","S"],
+ ["Ao expor seu ponto de vista sobre um determinado assunto, você se considera convincente a ponto de mudar a opinião das pessoas?", "Sim.", "Não.", "T","F"],
+ ["Ao escolher uma possível solução para um problema, você geralmente:", "Escolhe uma saída já experimentada.", "Tenta um novo caminho.", "S","N"],
+ ["Se tivesse que falar sobre um assunto que você domina para um grupo com mais de 50 pessoas, você:", "Permaneceria tranquilo, quase como se estivesse conversando com uma só pessoa.", "Ficaria nervoso.", "E","I"],
+ ["Se pudesse escolher livremente um horário de trabalho, você optaria por:", "Horários fixos de entrada, almoço e saída.", "Horários flexíveis que resultassem na mesma carga diária de trabalho.", "J","P"],
+ ["Com relação ao futuro, você:", "Costuma definir planos de longo prazo (anos à frente) e persegue as etapas para alcançá-los.", "Planeja mais o futuro imediato (meses à frente) e deixa as coisas irem acontecendo a partir daí.", "J","P"],
+ ["Ao defender uma ideia em público, você costuma:", "Pensar bastante antes de falar.", "Ir pensando enquanto fala.", "I","E"],
+ ["No trabalho, você prefere:", "Avançar em várias tarefas ao mesmo tempo.", "Concentrar-se em uma tarefa até concluí-la.", "E","I"],
+ ["O que mais o faz admirar uma pessoa?", "Criatividade.", "Sensatez.", "N","S"],
+ ["Quando precisa avaliar uma alternativa, você:", "Avalia os prós e contras com o mesmo empenho para chegar a uma conclusão.", "Tende a olhar mais para as vantagens e relegar as desvantagens a segundo plano.", "T","F"],
+ ["Numa mesa de bar com sete ou oito amigos que se conhecem bem, você costuma:", "Ser um dos que mais falam.", "Ser um dos que menos falam.", "E","I"],
+ ["No ambiente de trabalho, você prefere:", "Dizer o que precisa ser dito, mesmo que magoe a outra pessoa.", "Evitar dizer coisas que possam magoar a outra pessoa.", "T","F"],
+ ["Ao dar exemplos, você costuma:", "Relatar situações que ocorreram de fato.", "Descrever situações hipotéticas.", "S","N"],
+ ["Com relação a mudanças de cidade, você:", "Se empolga com o clima de novidade em torno da mudança.", "Se sente desconfortável e inseguro.", "P","J"],
+ ["Você costuma ser mais convencido por informações transmitidas:", "De forma lógica e organizada, porém fria.", "Com entusiasmo, mesmo que sem tanta organização.", "T","F"],
+ ["Com relação a prazos curtos para o cumprimento de uma tarefa, você:", "Se sente desconfortável e não gosta da situação.", "Se sente desafiado e lida bem com a situação.", "N","S"],
+ ["Você imagina que é mais visto(a) como:", "Uma pessoa gentil e aberta.", "Uma pessoa de opiniões fortes.", "F","T"],
+ ["Que tipo de pessoa lhe irritaria mais no convívio cotidiano:", "A muito indecisa, aquela que cogita várias hipóteses e tem dificuldade para tomar a decisão.", "A muito decidida, aquela que sabe exatamente que decisão tomar e sequer aceita sugestões.", "S","N"],
+ ["Quando você estipula metas:", "Faz o máximo possível para cumpri-las e normalmente consegue.", "Frequentemente abre mão delas em função de outras prioridades que vão surgindo.", "J","P"],
+ ["Com relação à velocidade da sua fala:", "Tende a ser rápida, com imediato encadeamento de ideias.", "Tende a ser devagar, com muitas pausas para reflexão.", "E","I"],
+ ["Você considera que:", "Lei é lei e deve ser cumprida de qualquer forma.", "As circunstâncias de eventual descumprimento de uma lei devem ser avaliadas e levadas em conta.", "J","P"],
+ ["Você se sentiria mais à vontade numa festa frequentada essencialmente por:", "Publicitários.", "Engenheiros.", "N","S"],
+ ["Quando marca um compromisso, você:", "Raramente chega no horário.", "Raramente se atrasa.", "P","J"],
+ ["Quando você toma uma decisão:", "Quase nunca volta atrás.", "Frequentemente volta atrás.", "J","P"],
+ ["Ao avaliar situações e pessoas, você prioriza:", "O seu senso de justiça.", "O seu sentimento de compreensão e compaixão.", "T","F"],
+ ["Você se sentiria mais satisfeito se fosse considerado:", "Extremamente racional.", "Extremamente sentimental.", "T","F"],
+ ["Para você, o que é mais importante na relação com um colega de trabalho:", "A empatia entre vocês.", "Ter plena confiança na capacidade profissional dele.", "F","T"],
+ ["Em uma entrevista de emprego, você:", "Não encontra dificuldades para falar das próprias virtudes.", "Se sente constrangido e tem dificuldades para falar das próprias virtudes.", "E","I"],
+ ["Qual seu ambiente de trabalho preferido?", "Silencioso, com poucas interações com outras pessoas.", "Barulhento, com muitas interações com outras pessoas.", "I","E"],
+ ["Ao sair de um ambiente que acabou de conhecer, você:", "É capaz de descrever os detalhes.", "Consegue fazer uma boa descrição genérica, sem muitos detalhes.", "S","N"],
+ ["Ao acordar, você prefere a ideia de que seu dia:", "Terá algum imprevisto, um acontecimento que mude a rotina.", "Transcorrerá exatamente conforme o rotineiro e planejado.", "P","J"],
+ ["No cotidiano (ao se relacionar com outras pessoas, no ambiente de trabalho, ao ver um filme etc.), você recorre mais:", "Ao elogio.", "À crítica.", "F","T"],
+ ["Nos ambientes de trabalho pelos quais passou, você:", "Fez muitas amizades pessoais a ponto de frequentar a casa do outro e conhecer seus familiares.", "Fez poucas amizades pessoais.", "E","I"],
+ ["Ao avaliar uma situação, você:", "Presta atenção essencialmente ao que é real, palpável.", "Leva em conta o “sexto sentido”, aquilo que não é tão palpável.", "S","N"],
+ ["Ao se mudar para um novo prédio ou bairro, você:", "Cria situações de aproximação com os vizinhos.", "Espera a aproximação ocorrer naturalmente.", "E","I"],
+ ["Em trabalhos de ficção, como filmes e livros, você se identifica mais com:", "Um personagem que usa a lógica e a inteligência para colocar na cadeia o responsável por um crime que lhe tenha prejudicado.", "Um personagem que age levado pela emoção e se vinga diretamente do criminoso.", "T","F"],
+ ["Ao planejar a compra de um carro novo, você tende a:", "Escolher de antemão o modelo ou a marca e a partir daí procurar o melhor preço e condições de pagamento.", "Levar em conta diferentes modelos e marcas ao pesquisar preços e condições de pagamento.", "J","P"],
+ ["Ao receber uma tarefa iniciada por outra pessoa, mas que esteja ainda longe de ser concluída (organizar um fichário, por exemplo), você:", "Tenta ao máximo entender o que já foi feito para seguir a partir dali.", "Prefere ter liberdade para definir sua própria estratégia e começar do zero.", "S","N"],
+ ["Você se sente mais incomodado quando:", "Tem uma lista grande de tarefas a realizar.", "Consegue zerar a lista de tarefas a realizar.", "J","P"],
+ ["Que definição combina melhor com você:", "Maleável e com facilidade para se adaptar.", "Organizado e metódico.", "P","J"]
+];
+
+const NAMES = {E:"Extroversão",I:"Introversão",S:"Sensação",N:"Intuição",T:"Pensamento",F:"Sentimento",J:"Julgamento",P:"Percepção"};
+const PAIRS = [
+  ["E","I","De onde vem a sua energia"],
+  ["S","N","Como você percebe as informações"],
+  ["T","F","Como você toma decisões"],
+  ["J","P","Como você organiza a sua rotina"]
+];
+
+/* Resumos extraídos dos relatórios de cada tipo */
+const TYPES = {
+ ISTJ:["O Inspetor","Reservado, perseverante, fiel e cuidadoso. Sistemático, organizado e atento aos fatos. Trabalhador, meticuloso e pé no chão; pragmático, honesto e honra seus compromissos. Faz o que é certo e espera o mesmo dos outros. É calmo e firme em momentos de crise."],
+ ISFJ:["O Protetor","Honesto e cooperativo. Leal, digno de crédito e autodisciplinado. Respeita a ética profissional e completa suas tarefas nos prazos. Tem excelente memória para detalhes. Amigo silencioso, sério e reservado, frequentemente trabalha nos bastidores ajudando os outros. Modesto, diplomata e gentil."],
+ INFJ:["O Conselheiro","Sensível, profundo e sério ao considerar valores pessoais e convicções. Tem vida interior rica e valoriza a integridade pessoal. Criativo, original e idealista. Reservado, gentil e compassivo. Sente grande necessidade de harmonia. Consciencioso, determinado e perseverante."],
+ INTJ:["O Organizador","Independente e individualista. Tem muita perspicácia e visão. Hábil em criar teorias e métodos. Estimula a si mesmo e aos outros a alcançar seus objetivos e o autodesenvolvimento. Engenhoso e criativo ao resolver problemas. Organizado, determinado e líder confiável. Responsável, reservado e discreto."],
+ ISTP:["O Virtuoso","Prefere agir a conversar. Gosta de aventura e desafios e resolve bem as crises. Sai-se bem em trabalhos com ferramentas, máquinas ou que exijam habilidade manual. Cheio de expedientes, independente e determinado. Coerente, realista e prático. Reservado, observador e curioso."],
+ ISFP:["O Compositor","Leal e compassivo. Aparenta ser reservado e simples e ajuda os outros discretamente. Paciente, sabe aceitar as coisas como são e não faz julgamentos. Sensibiliza-se com conflitos e discórdias e tem pouca necessidade de controlar os outros. Modesto, sensível e gentil."],
+ INFP:["O Curador","Devotado, compassivo, de mente aberta e gentil. Gosta de aprender e de estar envolvido em projetos próprios. Tem convicções apaixonadas e persegue ideais. Estabelece padrões elevados para si mesmo. Idealista, sensível e criativo. Pode ser reservado e contemplativo."],
+ INTP:["O Arquiteto","Pensador original, brilhante e competente para solucionar problemas. Não-conformista, valoriza a precisão no pensar e no falar e observa inconsistências e contradições. Independente, curioso e compreensivo. Discreto, reservado e introspectivo."],
+ ESTP:["O Promotor","Gosta de enfrentar riscos, desafios e aventuras. Cheio de energia, vive em constante movimento. Atento, confiante e persuasivo. Direto e competente, cheio de expedientes, responde bem às crises. Realista, pragmático e negociador habilidoso."],
+ ESFP:["O Performático","Solícito, generoso, cooperativo, gosta de ajudar os outros. Amigável, enérgico, vivaz e charmoso. Tolerante, aceita a si mesmo e aos outros. Tem senso prático, enfatiza o positivo, gosta de novas experiências e tem entusiasmo pela vida."],
+ ENFP:["O Campeão","Acolhedor, prestativo, respeitador e compassivo. Cheio de entusiasmo e novas ideias. Valoriza a liberdade e a autonomia. Sabe se comunicar muito bem e inspirar ações. Criativo, espontâneo, positivo e amante de diversões."],
+ ENTP:["O Inventor","Desenvolto em desafios e debates. Entusiasta, charmoso e espirituoso. Valoriza a liberdade e a independência. Criativo, empreendedor e competente. Espontâneo, gosta de enfrentar riscos e está atento a todas as possibilidades. Inquiridor e curioso."],
+ ESTJ:["O Supervisor","Extrovertido, ativo e fidedigno. Eficiente, organizado e decidido. Gosta de administrar e dirigir; ótimo para definir e aplicar políticas e procedimentos. Afirmativo, franco e direto. Responsável, esforçado, bom planejador, consistente e pragmático."],
+ ESFJ:["O Provedor","Entusiasta, sociável e cativante. Gosta de se sentir necessário e estimado. Compreensivo e cooperativo, solidário e diligente em tarefas organizacionais. Digno de confiança, leal e responsável. Valoriza a harmonia e demonstra seu cuidado através de atitudes práticas."],
+ ENFJ:["O Professor","Charmoso, entusiasta e socialmente ativo. Orador persuasivo e inspirado, líder carismático que motiva outras pessoas. Simpático, caloroso, prestativo e solidário. Responsável, consciente e idealista. Diplomático e bom em promover harmonia."],
+ ENTJ:["O Comandante","Líder confiável que gosta de estar no comando. Decidido e ambicioso. Aprecia o intercâmbio intelectual. Engenhoso e competente para resolver problemas complexos. Inovador, analítico e coerente. Determinado e independente, aspira ser o melhor em tudo o que faz."]
+};
+
+/* ===== Estado ===== */
+const KEY = "rjl-indicador-v1";
+let state = { nome:"", vaga:"", answers:Array(Q.length).fill(null), idx:0, done:false, finishedAt:null };
+
+function save(){ try{ localStorage.setItem(KEY, JSON.stringify(state)); }catch(e){} }
+function load(){
+  try{
+    const s = JSON.parse(localStorage.getItem(KEY) || "null");
+    if(s && Array.isArray(s.answers) && s.answers.length === Q.length) state = s;
+  }catch(e){}
+}
+const $ = id => document.getElementById(id);
+function show(id){
+  ["intro","quiz","result"].forEach(s => $(s).classList.toggle("hidden", s !== id));
+  window.scrollTo({top:0});
+}
+const answeredCount = () => state.answers.filter(a => a !== null).length;
+
+/* ===== Intro ===== */
+function initIntro(){
+  $("nome").value = state.nome || "";
+  $("vaga").value = state.vaga || "";
+  const n = answeredCount();
+  if(n > 0 && !state.done){
+    $("startBtn").textContent = "Continuar de onde parei";
+    $("resumeNote").textContent = `Você já respondeu ${n} de ${Q.length} perguntas. Suas respostas foram guardadas neste navegador.`;
+  }
+}
+$("startBtn").addEventListener("click", () => {
+  const nome = $("nome").value.trim();
+  if(nome.length < 3){ $("introErr").textContent = "Informe seu nome completo para começar."; $("nome").focus(); return; }
+  $("introErr").textContent = "";
+  state.nome = nome; state.vaga = $("vaga").value.trim();
+  { const first = state.answers.findIndex(a => a === null); state.idx = first === -1 ? Q.length-1 : first; }
+  save(); show("quiz"); renderQ();
+});
+$("nome").addEventListener("keydown", e => { if(e.key === "Enter") $("startBtn").click(); });
+
+/* ===== Perguntas ===== */
+function renderQ(){
+  const i = state.idx, q = Q[i];
+  const stage = $("qStage");
+  stage.classList.remove("enter"); void stage.offsetWidth; stage.classList.add("enter");
+  $("qnum").textContent = `Pergunta ${i+1}`;
+  $("qtext").textContent = q[0];
+  const opts = $("opts"); opts.innerHTML = "";
+  [1,2].forEach(v => {
+    const b = document.createElement("button");
+    b.className = "opt"; b.type = "button";
+    b.setAttribute("role","radio");
+    b.setAttribute("aria-checked", state.answers[i] === v ? "true" : "false");
+    b.innerHTML = `<span class="k">${v}</span><span></span>`;
+    b.lastChild.textContent = q[v];
+    b.addEventListener("click", () => choose(v));
+    opts.appendChild(b);
+  });
+  const n = answeredCount();
+  $("bar").style.width = (n / Q.length * 100) + "%";
+  $("barWrap").setAttribute("aria-valuenow", n);
+  $("count").textContent = `${n} de ${Q.length} respondidas`;
+  $("backBtn").disabled = i === 0;
+  $("nextBtn").disabled = state.answers[i] === null;
+  $("nextBtn").textContent = (i === Q.length-1) ? "Ver meu perfil" : "Próxima";
+}
+let advanceTimer = null;
+function choose(v){
+  state.answers[state.idx] = v; save(); renderQ();
+  clearTimeout(advanceTimer);
+  advanceTimer = setTimeout(() => { if(state.idx < Q.length-1) next(); }, 320);
+}
+function next(){
+  clearTimeout(advanceTimer);
+  if(state.answers[state.idx] === null) return;
+  if(state.idx < Q.length-1){ state.idx++; save(); renderQ(); return; }
+  const missing = state.answers.findIndex(a => a === null);
+  if(missing !== -1){ state.idx = missing; renderQ(); return; }
+  finish();
+}
+$("nextBtn").addEventListener("click", next);
+$("backBtn").addEventListener("click", () => { clearTimeout(advanceTimer); if(state.idx > 0){ state.idx--; save(); renderQ(); } });
+document.addEventListener("keydown", e => {
+  if($("quiz").classList.contains("hidden")) return;
+  if(e.target.tagName === "INPUT") return;
+  if(e.key === "1" || e.key === "2") choose(Number(e.key));
+  else if(e.key === "ArrowRight" || e.key === "Enter"){ if(!$("nextBtn").disabled) next(); }
+  else if(e.key === "ArrowLeft"){ $("backBtn").click(); }
+});
+
+/* ===== Resultado ===== */
+function score(){
+  const c = {E:0,I:0,S:0,N:0,T:0,F:0,J:0,P:0};
+  state.answers.forEach((a,i) => { if(a) c[Q[i][a+2]]++; });
+  const type = PAIRS.map(([a,b]) => c[a] >= c[b] ? a : b).join("");
+  return {c, type};
+}
+function finish(){
+  state.done = true; state.finishedAt = state.finishedAt || new Date().toISOString(); save();
+  renderResult(); show("result");
+}
+function renderResult(){
+  const {c, type} = score();
+  const [nick, text] = TYPES[type];
+  const first = state.nome.split(" ")[0];
+  $("resHello").textContent = `${first}, o seu perfil é`;
+  $("typeLetters").innerHTML = type.split("").map(l => `<span class="L" title="${NAMES[l]}">${l}</span>`).join("");
+  $("nick").textContent = nick;
+  $("dimsName").textContent = type.split("").map(l => NAMES[l]).join(" · ");
+  $("summary").textContent = text;
+
+  $("dims").innerHTML = PAIRS.map(([a,b,label]) => {
+    const total = c[a] + c[b], wa = c[a] >= c[b];
+    const pa = Math.round(c[a]/total*100);
+    return `<div>
+      <div class="dim-top"><span>${label}</span></div>
+      <div class="dim-top">
+        <span class="${wa?'win':''}">${a} · ${NAMES[a]} (${c[a]})</span>
+        <span class="${!wa?'win':''}">${NAMES[b]} (${c[b]}) · ${b}</span>
+      </div>
+      <div class="split" role="img" aria-label="${NAMES[a]} ${c[a]}, ${NAMES[b]} ${c[b]}">
+        <div class="a ${wa?'':'lose'}" style="width:${pa}%"></div>
+        <div class="b ${wa?'':'win'}" style="width:${100-pa}%"></div>
+      </div>
+    </div>`;
+  }).join("");
+
+  const d = new Date(state.finishedAt);
+  const dt = d.toLocaleDateString("pt-BR",{day:"2-digit",month:"long",year:"numeric"});
+  const esc = s => s.replace(/[&<>"]/g, ch => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[ch]));
+  $("meta").innerHTML = `<span>Candidato <b>${esc(state.nome)}</b></span>` +
+    (state.vaga ? `<span>Vaga <b>${esc(state.vaga)}</b></span>` : "") +
+    `<span>Concluído em <b>${dt}</b></span><span>Tipo <b>${type}</b></span>`;
+}
+$("printBtn").addEventListener("click", () => window.print());
+
+
+/* ===== Início ===== */
+load();
+if(state.done){ renderResult(); show("result"); } else { initIntro(); show("intro"); }
+</script>
+</body>
+</html>
